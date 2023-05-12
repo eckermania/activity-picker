@@ -1,10 +1,12 @@
 "use strict";
 
 // dependencies
-const express = require("express");
-const pg = require("pg");
-const activity = require('./endpoints/activity.js');
-const user = require('./endpoints/user.js');
+import express from 'express';
+import pg from 'pg';
+import * as dotenv from 'dotenv';
+dotenv.config();
+import activity from './endpoints/activity.js';
+import user from './endpoints/user.js';
 
 // setup server
 const app = express();
