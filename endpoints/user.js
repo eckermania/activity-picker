@@ -1,6 +1,5 @@
 // This router handles POST requests to the /user endpoint
-require("dotenv").config();
-const express = require("express");
+import express from 'express';
 const router = express.Router();
 
 // @route GET /activity
@@ -9,4 +8,4 @@ router.get("/", (req, res) => {
     return;
 });
 
-module.exports = router;
+export default router;
