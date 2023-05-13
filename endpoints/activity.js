@@ -2,6 +2,7 @@
 import express from 'express';
 const router = express.Router();
 import fetch from 'node-fetch';
+import pool from "../db_pool.js";
 
 // constants for accessibility thresholds
 const highAccessibilityUpperBound = .25;
@@ -9,6 +10,40 @@ const lowAccessibilityLowerBound = .75;
 
 // constant for price threshold
 const priceThreshhold = .5;
+
+// translate string for price level to min and max values
+function translatePrice(priceStr){
+    let priceMinMax = [];
+    switch(priceStr){
+        case 'Free':
+            priceMinMax = [0, 0];
+            break;
+        case 'Low':
+            priceMinMax = [.01, priceThreshhold];
+            break;
+        case 'High':
+            priceMinMax = [priceThreshhold, 1];
+            break;
+    };
+    return priceMinMax;
+}
+
+// translate string for accessibility level to min and max values
+function translateAccessibility(accessibilityStr){
+    let accessibilityMinMax = [];
+    switch(accessibilityStr){
+        case 'High':
+            accessibilityMinMax = [0, highAccessibilityUpperBound];
+            break;
+        case 'Medium':
+            accessibilityMinMax = [highAccessibilityUpperBound, lowAccessibilityLowerBound];
+            break;
+        case 'Low':
+            accessibilityMinMax = [lowAccessibilityLowerBound, 1];
+            break;
+    };
+    return accessibilityMinMax;
+}
 
 // Class for a single activity
 class Activity {
@@ -49,17 +84,36 @@ class Activity {
 
 
 // GET /activity
-// Retrieve a random activity from the Bored API and return new instance of Activity
+// Retrieve a random activity from the Bored API and return new instance of Activity. 
+// Request will be filtered on youngest user record if table is not empty.
 router.get("/", (req, res) => {
-    (async () => {
-        const resBody = await fetch('https://www.boredapi.com/api/activity').then(response => response.json());
-        console.log("resBody", resBody);
+    // Check Users table to see if at least one record exists
+    let SQL = `SELECT accessibility, price FROM Users WHERE user_id=(SELECT max(user_id) FROM Users);`
 
-        let newActivity = new Activity(resBody.activity, resBody.accessibility, resBody.type, resBody.participants, 
-            resBody.price, resBody.link, resBody.key);
-        console.log('Activity instance:', newActivity);
-        res.send(newActivity);
-    })();
+    return pool.query(SQL)
+    .then((db_res) => {
+        let reqURL = `https://www.boredapi.com/api/activity`;
+        // Users table is not empty - add price and accessibility params to path
+        if (db_res.rows.length > 0){
+            console.log(db_res.rows);
+            let priceMinMax = translatePrice(db_res.rows[0].price);
+            let accessibilityMinMax = translateAccessibility(db_res.rows[0].accessibility);
+            reqURL += `?minprice=` + priceMinMax[0] + `&maxprice=` + priceMinMax[1] + `&minaccessibility=` + 
+                accessibilityMinMax[0] + `&maxaccessibility=` + accessibilityMinMax[1];
+        }
+        (async () => {
+            let resBody = await fetch(reqURL).then(response => response.json());
+            let newActivity = new Activity(resBody.activity, resBody.accessibility, resBody.type, resBody.participants, 
+                resBody.price, resBody.link, resBody.key);
+            console.log('Activity instance:', newActivity);
+            res.send(newActivity);
+        })();
+
+    })
+    .catch((err) =>{
+        console.log(err)
+        res.status(500).send("Error retrieving record.")
+    });
 });
 
 export default router;
