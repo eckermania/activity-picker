@@ -3,6 +3,12 @@ Suggests random activities and stores user profiles
 
 Uses Bored API: https://www.boredapi.com/documentation#endpoints-price-range
 
+Import DB
+
+start PostgresSQL server on port 5432
+
+
+
 To Provision and run API locally:
 
 Testing
