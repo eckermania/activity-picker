@@ -23,8 +23,7 @@ app.get("/", (req, res) =>{
 app.use("/activity", activity);
 app.use("/user", user);
 
-// const pool = new pg.Pool({connectionString: process.env.DATABASE_URL});
-
+const pool = new pg.Pool({connectionString: process.env.DATABASE_URL});
 
 const port = process.env.PORT || 8080;
 app.listen(port, ()=>{
