@@ -22,7 +22,7 @@ function translatePrice(priceStr){
             priceMinMax = [.01, priceThreshhold];
             break;
         case 'High':
-            priceMinMax = [priceThreshhold, 1];
+            priceMinMax = [priceThreshhold + .01, 1];
             break;
     };
     return priceMinMax;
@@ -39,7 +39,7 @@ function translateAccessibility(accessibilityStr){
             accessibilityMinMax = [highAccessibilityUpperBound, lowAccessibilityLowerBound];
             break;
         case 'Low':
-            accessibilityMinMax = [lowAccessibilityLowerBound, 1];
+            accessibilityMinMax = [lowAccessibilityLowerBound + .01, 1];
             break;
     };
     return accessibilityMinMax;
@@ -103,6 +103,11 @@ router.get("/", (req, res) => {
         }
         (async () => {
             let resBody = await fetch(reqURL).then(response => response.json());
+
+            if(resBody.error){
+                return res.status(404).send("No activity found matching accessibility and price requirements")
+            }
+
             let newActivity = new Activity(resBody.activity, resBody.accessibility, resBody.type, resBody.participants, 
                 resBody.price, resBody.link, resBody.key);
             console.log('Activity instance:', newActivity);
