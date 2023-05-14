@@ -22,12 +22,12 @@ router.post("/", (req, res) => {
 
     // reject if any of the request fields are missing
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('accessibility') || !req.body.hasOwnProperty('price')){
-        return res.status(500).send("Error inserting record - missing field")
+        return res.status(400).send("Error inserting record - missing field")
     };
 
     // reject if any of the request fields are incorrectly formatted
     if (typeof req.body.name != 'string' || accessibilityOptions.indexOf(req.body.accessibility) === -1 || priceOptions.indexOf(req.body.price) === -1 ){
-        return res.status(500).send("Error inserting record - invalid field")
+        return res.status(400).send("Error inserting record - invalid field")
     };
 
     // handle cases of names with apostrophes

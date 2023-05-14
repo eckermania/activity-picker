@@ -1,0 +1,893 @@
+{
+	"info": {
+		"_postman_id": "862a916b-4c22-449d-9b2d-63f4dff4f3f9",
+		"name": "activity-picker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5392491"
+	},
+	"item": [
+		{
+			"name": "get random activity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the expected data type",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.be.a('string');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.be.a('string');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 1 (high accessibility & free price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Kendall\",\n    \"accessibility\": \"High\",\n    \"price\": \"Free\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('High');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('Free');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 2 (high accessibility & low price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Gerri\",\n    \"accessibility\": \"High\",\n    \"price\": \"Low\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('High');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('Low');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 3 (high accessibility & high price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Greg\",\n    \"accessibility\": \"High\",\n    \"price\": \"High\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 3 (combination not possible)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {",
+							"    //Check for 404 status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 4  (medium accessibility & low price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Roman\",\n    \"accessibility\": \"Medium\",\n    \"price\": \"Low\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('Medium');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('Low');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 5  (medium accessibility & free price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Tom\",\n    \"accessibility\": \"Medium\",\n    \"price\": \"Free\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('Medium');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('Free');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 6  (medium accessibility & high price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Willa\",\n    \"accessibility\": \"Medium\",\n    \"price\": \"High\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('Medium');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('High');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 7 (low accessibility & high price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Siobhan\",\n    \"accessibility\": \"Low\",\n    \"price\": \"High\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 7 (combination not possible)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {",
+							"    //Check for 404 status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 8 (low accessibility & low price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Marcia\",\n    \"accessibility\": \"Low\",\n    \"price\": \"Low\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('Low');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('Low');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user 9 (low accessibility & free price)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Stewy\",\n    \"accessibility\": \"Low\",\n    \"price\": \"Free\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get activity for user 9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    //Check for 200 status code",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"   //Check if the response content is valid and matches the user preferences for price and accessibility",
+							"   pm.expect(pm.response.json()).to.have.property('activity');",
+							"   pm.expect(pm.response.json()['accessibility']).to.equal('Low');",
+							"   pm.expect(pm.response.json()).to.have.property('type');",
+							"   pm.expect(pm.response.json()).to.have.property('participants');",
+							"   pm.expect(pm.response.json()['price']).to.equal('Free');",
+							"   pm.expect(pm.response.json()).to.have.property('link');",
+							"   pm.expect(pm.response.json()).to.have.property('key');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user with missing attributes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {",
+							"    //Check for 400 status code",
+							"    pm.response.to.have.status(400);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Conner\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add user with incorrect attribute data types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {",
+							"    //Check for 400 status code",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Logan\",\n    \"accessibility\": 15,\n    \"price\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
